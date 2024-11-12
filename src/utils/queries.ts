@@ -1,8 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
 import { getPost, getPosts, getQuotes } from "./api";
 
-export const usePosts = (enabled?: boolean) =>
-  useQuery({ queryKey: ["posts"], queryFn: getPosts, enabled });
+export const usePosts = (enabled?: boolean, limit?: number, skip?: number) =>
+  useQuery({
+    queryKey: ["posts", { limit, skip }],
+    queryFn: () => getPosts(limit, skip),
+    enabled,
+  });
 
 export const usePost = (id: number) =>
   useQuery({

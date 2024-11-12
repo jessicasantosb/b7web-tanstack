@@ -4,8 +4,11 @@ import axios from "axios";
 
 const req = axios.create({ baseURL: "https://dummyjson.com" });
 
-export const getPosts = async (): Promise<PostProps[]> => {
-  const response = await req.get("/posts");
+export const getPosts = async (
+  limit: number = 10,
+  skip: number = 0
+): Promise<PostProps[]> => {
+  const response = await req.get(`/posts?limit=${limit}&skip=${skip}`);  
   return response.data.posts;
 };
 

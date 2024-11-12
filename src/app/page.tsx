@@ -1,9 +1,15 @@
 "use client";
 
-import { usePost, usePosts, useQuotes } from "@/utils/queries";
+import {
+  usePost,
+  usePosts,
+  useQuotes,
+  useQuotesPrefetch,
+} from "@/utils/queries";
 import { useState } from "react";
 
 export default function Home() {
+  useQuotesPrefetch();
   const [canLoadPosts, setCanLoadPosts] = useState(false);
   const [skip, setSkip] = useState(0);
   const limit = 3;
@@ -30,7 +36,10 @@ export default function Home() {
         >
           página anterior
         </button>
-        <button className="p-2 border bg-slate-300" onClick={() => setSkip(skip + 1)}>
+        <button
+          className="p-2 border bg-slate-300"
+          onClick={() => setSkip(skip + 1)}
+        >
           próxima página
         </button>
 

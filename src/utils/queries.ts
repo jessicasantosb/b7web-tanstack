@@ -1,20 +1,32 @@
 import { initialPosts } from "@/data/postInitialData";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getPost, getPosts, getQuotes } from "./api";
 
-export const usePosts = (enabled?: boolean, limit?: number, skip?: number) =>
-  useQuery({
+export const usePosts = (enabled?: boolean, limit?: number, skip?: number) => {
+  return useQuery({
     queryKey: ["posts", { limit, skip }],
     queryFn: () => getPosts(limit, skip),
     enabled,
     placeholderData: initialPosts,
   });
+};
 
-export const usePost = (id: number) =>
-  useQuery({
+export const usePost = (id: number) => {
+  return useQuery({
     queryKey: ["posts", id],
     queryFn: () => getPost(id),
   });
+};
 
-export const useQuotes = () =>
-  useQuery({ queryKey: ["quotes"], queryFn: getQuotes });
+export const useQuotes = () => {
+  return useQuery({ queryKey: ["quotes"], queryFn: getQuotes });
+};
+
+export const useQuotesPrefetch = () => {
+  const queryClient = useQueryClient();
+
+  return queryClient.prefetchQuery({
+    queryKey: ["quotes"],
+    queryFn: getQuotes,
+  });
+};

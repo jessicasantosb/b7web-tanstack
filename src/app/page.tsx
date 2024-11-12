@@ -1,15 +1,22 @@
 "use client";
 
 import { usePost, usePosts, useQuotes } from "@/utils/queries";
+import { useState } from "react";
 
 export default function Home() {
-  const posts = usePosts();
+  const [canLoadPosts, setCanLoadPosts] = useState(false);  
+
+  const posts = usePosts(canLoadPosts);
   const post = usePost(1);
   const quotes = useQuotes();
 
   return (
     <section>
       <h1 className="text-center py-4">TanStack</h1>
+
+      <button onClick={() => setCanLoadPosts(!canLoadPosts)}>
+        carregar posts
+      </button>
 
       <h3 className="text-center py-4">POSTS</h3>
       {posts.isLoading && <p>Carregando...</p>}

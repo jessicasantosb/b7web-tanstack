@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  invalidatePosts,
   usePost,
   usePosts,
   useQuotes,
@@ -20,10 +21,18 @@ export default function Home() {
 
   return (
     <section className="p-4">
-      <h1 className="text-center py-4">TanStack</h1>
-      <div className="border p-2">
+      <h1 className="text-center py-4 font-bold text-2xl">TanStack</h1>
+      <div className="border-8 my-4 p-2">
+        <h3 className="text-center py-4 font-bold text-xl">POSTS</h3>
+
         <button
-          className="mr-2 p-2 border bg-slate-300"
+          className="mr-2 p-2 border bg-green-300"
+          onClick={() => invalidatePosts()}
+        >
+          adicionar posts
+        </button>
+        <button
+          className="mr-2 p-2 border bg-orange-400"
           onClick={() => setCanLoadPosts(!canLoadPosts)}
         >
           carregar posts
@@ -43,7 +52,6 @@ export default function Home() {
           próxima página
         </button>
 
-        <h3 className="text-center py-4">POSTS</h3>
         {posts.isLoading && <p>Carregando...</p>}
         <p>{!post.isLoading && post.isFetching && "Recarregando..."}</p>
         {post.data && (
@@ -55,15 +63,15 @@ export default function Home() {
         )}
       </div>
 
-      <div>
-        <h3 className="text-center py-4">POST</h3>
+      <div className="border-8 my-4 p-2">
+        <h3 className="text-center py-4 font-bold text-xl">POST</h3>
         <p>{post.isLoading && "Carregando..."}</p>
         <p>{!post.isLoading && post.isFetching && "Recarregando..."}</p>
         <p>{post?.data?.title}</p>
       </div>
 
-      <div>
-        <h3 className="text-center py-4">QUOTES</h3>
+      <div className="border-8 my-4 p-2">
+        <h3 className="text-center py-4 font-bold text-xl">QUOTES</h3>
         {quotes.isLoading && <p>Carregando...</p>}
         <p>{!post.isLoading && post.isFetching && "Recarregando..."}</p>
         {quotes.data && (

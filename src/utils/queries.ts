@@ -1,6 +1,7 @@
 import { initialPosts } from "@/data/postInitialData";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getPost, getPosts, getQuotes } from "./api";
+import { queryClient } from "./queryClient";
 
 export const usePosts = (enabled?: boolean, limit?: number, skip?: number) => {
   return useQuery({
@@ -28,5 +29,11 @@ export const useQuotesPrefetch = () => {
   return queryClient.prefetchQuery({
     queryKey: ["quotes"],
     queryFn: getQuotes,
+  });
+};
+
+export const invalidatePosts = () => {
+  queryClient.invalidateQueries({
+    queryKey: ["posts"],
   });
 };

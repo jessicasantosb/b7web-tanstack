@@ -1,17 +1,10 @@
 "use client";
 
-import { PostProps } from "@/types/Posts";
+import { getQuotes } from "@/utils/api";
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 
 export default function Home() {
-  const posts = useQuery({
-    queryKey: ["posts"],
-    queryFn: async (): Promise<PostProps[]> => {
-      const result = await axios.get("https://dummyjson.com/posts");
-      return result.data.posts;
-    },
-  });
+  const posts = useQuery({ queryKey: ["post"], queryFn: getQuotes });
 
   return (
     <section>
@@ -19,8 +12,8 @@ export default function Home() {
 
       {posts.data && (
         <ul>
-          {posts.data.map(({ id, title }) => {
-            return <li key={id}>{title}</li>;
+          {posts.data.map((i) => {
+            return <li key={i.id}>{i.quote}</li>;
           })}
         </ul>
       )}

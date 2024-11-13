@@ -23,8 +23,8 @@ export default function Home() {
 
   const addMutation = useMutation({ mutationFn: addPost });
 
-  const handleAdd = () => {
-    addMutation.mutate({
+  const handleAdd = async () => {
+    const newPost = {
       title: "Título fake",
       body: "His mother had always taught him not to ever think of himself as better than others. He'd tried to live by this motto. He never looked down on those who were less fortunate or who had less money than him. But the stupidity of the group of people he was talking to made him change his mind.",
       tags: ["history", "american", "crime"],
@@ -34,7 +34,15 @@ export default function Home() {
       },
       views: 305,
       userId: 2,
-    });
+    };
+
+    try {
+      await addMutation.mutateAsync(newPost);
+      console.log("Deu tudo certo");
+      console.log("Executado depois do mutate");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (

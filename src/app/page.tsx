@@ -1,5 +1,6 @@
 "use client";
 
+import { addPost } from "@/utils/api";
 import {
   invalidatePosts,
   usePost,
@@ -7,6 +8,7 @@ import {
   useQuotes,
   useQuotesPrefetch,
 } from "@/utils/queries";
+import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 
 export default function Home() {
@@ -19,6 +21,22 @@ export default function Home() {
   const post = usePost(1);
   const quotes = useQuotes();
 
+  const addMutation = useMutation({ mutationFn: addPost });
+
+  const handleAdd = () => {
+    addMutation.mutate({
+      title: "Título fake",
+      body: "His mother had always taught him not to ever think of himself as better than others. He'd tried to live by this motto. He never looked down on those who were less fortunate or who had less money than him. But the stupidity of the group of people he was talking to made him change his mind.",
+      tags: ["history", "american", "crime"],
+      reactions: {
+        likes: 192,
+        dislikes: 25,
+      },
+      views: 305,
+      userId: 2,
+    });
+  };
+
   return (
     <section className="p-4">
       <h1 className="text-center py-4 font-bold text-2xl">TanStack</h1>
@@ -29,6 +47,9 @@ export default function Home() {
           className="mr-2 p-2 border bg-green-300"
           onClick={() => invalidatePosts()}
         >
+          adicionar posts / invalidate
+        </button>
+        <button className="mr-2 p-2 border bg-green-300" onClick={handleAdd}>
           adicionar posts
         </button>
         <button

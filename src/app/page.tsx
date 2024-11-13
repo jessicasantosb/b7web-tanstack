@@ -1,6 +1,6 @@
 "use client";
 
-import { addPost } from "@/utils/api";
+import { useAddPost } from "@/utils/mutations";
 import {
   invalidatePosts,
   usePost,
@@ -8,7 +8,6 @@ import {
   useQuotes,
   useQuotesPrefetch,
 } from "@/utils/queries";
-import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 
 export default function Home() {
@@ -20,8 +19,7 @@ export default function Home() {
   const posts = usePosts(canLoadPosts, limit, skip * limit);
   const post = usePost(1);
   const quotes = useQuotes();
-
-  const addMutation = useMutation({ mutationFn: addPost });
+  const addPost = useAddPost();
 
   const handleAdd = async () => {
     const newPost = {
@@ -37,7 +35,7 @@ export default function Home() {
     };
 
     try {
-      await addMutation.mutateAsync(newPost);
+      await addPost.mutateAsync(newPost);
       console.log("Deu tudo certo");
       console.log("Executado depois do mutate");
     } catch (error) {
@@ -54,19 +52,19 @@ export default function Home() {
         <div className="border border-purple-800 my-4 p-2 flex flex-col gap-2">
           <h3 className="py-4 font-bold text-md">Adicionar um Post</h3>
 
-          <p>Status: {addMutation.status}</p>
-          {addMutation.isSuccess && "Adicionado com sucesso"}
+          <p>Status: {addPost.status}</p>
+          {addPost.isSuccess && "Adicionado com sucesso"}
 
           <button
             className="p-2 border border-purple-950"
-            onClick={() => addMutation.reset()}
+            onClick={() => addPost.reset()}
           >
             resetar status
           </button>
           <button className="p-2 border bg-purple-400" onClick={handleAdd}>
             Adicionar
-            {addMutation.isIdle && " | Modo Ocioso"}
-            {addMutation.isPending && " | Enviando..."}
+            {addPost.isIdle && " | Modo Ocioso"}
+            {addPost.isPending && " | Enviando..."}
           </button>
           <button
             className="p-2 border bg-green-300"

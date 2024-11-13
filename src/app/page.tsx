@@ -45,11 +45,17 @@ export default function Home() {
 
         <div className="border border-purple-800 my-4 p-2 flex flex-col gap-2">
           <h3 className="py-4 font-bold text-md">Adicionar um Post</h3>
+
+          <p>Status: {addMutation.status}</p>
           {addMutation.isSuccess && "Adicionado com sucesso"}
+
           <button
-            className="p-2 border bg-purple-400"
-            onClick={handleAdd}
+            className="p-2 border border-purple-950"
+            onClick={() => addMutation.reset()}
           >
+            resetar status
+          </button>
+          <button className="p-2 border bg-purple-400" onClick={handleAdd}>
             Adicionar
             {addMutation.isIdle && " | Modo Ocioso"}
             {addMutation.isPending && " | Enviando..."}

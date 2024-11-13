@@ -43,15 +43,25 @@ export default function Home() {
       <div className="border-8 my-4 p-2">
         <h3 className="text-center py-4 font-bold text-xl">POSTS</h3>
 
-        <button
-          className="mr-2 p-2 border bg-green-300"
-          onClick={() => invalidatePosts()}
-        >
-          adicionar posts / invalidate
-        </button>
-        <button className="mr-2 p-2 border bg-green-300" onClick={handleAdd}>
-          adicionar posts
-        </button>
+        <div className="border border-purple-800 my-4 p-2 flex flex-col gap-2">
+          <h3 className="py-4 font-bold text-md">Adicionar um Post</h3>
+          {addMutation.isSuccess && "Adicionado com sucesso"}
+          <button
+            className="p-2 border bg-purple-400"
+            onClick={handleAdd}
+          >
+            Adicionar
+            {addMutation.isIdle && " | Modo Ocioso"}
+            {addMutation.isPending && " | Enviando..."}
+          </button>
+          <button
+            className="p-2 border bg-green-300"
+            onClick={() => invalidatePosts()}
+          >
+            adicionar posts / invalidate
+          </button>
+        </div>
+
         <button
           className="mr-2 p-2 border bg-orange-400"
           onClick={() => setCanLoadPosts(!canLoadPosts)}
